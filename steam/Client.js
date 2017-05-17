@@ -5,7 +5,7 @@ module.exports = (function (undefined){
       mixin = require('./helpers').mixin,
       http_build_query = require('./helpers').http_build_query;
 
-  function Client(steamApiKey) {
+  function Client(steamApiKey, lang, cc) {
     if (!steamApiKey) {
       if (!process.env.STEAM_API_KEY){
         throw new Error("Please provide a steam api key.");
@@ -20,6 +20,8 @@ module.exports = (function (undefined){
     this.isService(false);
     this.setMethod(undefined);
     this.setSteamId(undefined);
+    this.setLanguage(lang);
+    this.setCountry(cc);
   }
 
   /** Getters / Setters **/
@@ -82,6 +84,22 @@ module.exports = (function (undefined){
     }
 
     this.steamId = value;
+  };
+
+  Client.prototype.getLanguage = function getLanguage(){
+    return this.language;
+  };
+
+  Client.prototype.setLanguage = function setLanguage(value){
+    this.language = value || '';
+  };
+
+  Client.prototype.getCountry = function getCountry(){
+    return this.country;
+  };
+
+  Client.prototype.setCountry = function setCountry(value){
+    this.country = value || '';
   };
 
   Client.prototype.isService = function isService(value){
@@ -168,7 +186,9 @@ module.exports = (function (undefined){
 
     parameters = {
       'key': this.getApiKey(),
-      'format': this.getApiFormat()
+      'format': this.getApiFormat(),
+      'l': this.getLanguage(),
+      'cc': this.getCountry()
     };
 
     if (args) {
