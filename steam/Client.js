@@ -5,7 +5,7 @@ module.exports = (function (undefined){
       mixin = require('./helpers').mixin,
       http_build_query = require('./helpers').http_build_query;
 
-  function Client(steamApiKey, lang, cc) {
+  function Client(steamApiKey, options) {
     if (!steamApiKey) {
       if (!process.env.STEAM_API_KEY){
         throw new Error("Please provide a steam api key.");
@@ -20,8 +20,8 @@ module.exports = (function (undefined){
     this.isService(false);
     this.setMethod(undefined);
     this.setSteamId(undefined);
-    this.setLanguage(lang);
-    this.setCountry(cc);
+    this.setLanguage(options ? options.language : '');
+    this.setCountry(options ? options.country : '');
   }
 
   /** Getters / Setters **/
