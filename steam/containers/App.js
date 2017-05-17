@@ -8,6 +8,7 @@ module.exports = (function(undefined){
     this.description        = app.detailed_description;
     this.about              = app.about_the_game;
     this.header             = app.header_image;
+    this.supportedLanguages = this.parseLanguages(app.supported_languages);
     this.website            = !app.website ? app.website : 'None';
     this.pcRequirements     = app.pc_requirements;
     this.legal              = app.legal_notice ? app.legal_notice : 'None';
@@ -32,6 +33,12 @@ module.exports = (function(undefined){
     return {
       final: 'No Price Found'
     };
+  }
+
+  App.prototype.parseLanguages = function parseLanguages(str){
+    var chunks = str.split('<br>');
+    var clearStr = chunks[0].replace(/<\/?[^>]+(>|$)/g, '');  // strip html
+    return clearStr.split(', ');
   }
   
   return App;
